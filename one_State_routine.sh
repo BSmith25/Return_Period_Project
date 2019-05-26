@@ -14,10 +14,9 @@
 # RedHat Linux or cygwin with wget
 
 # Create folders for the saved peak and discharge files
-mkdir Flashy_ones
-mkdir Flashy_ones/anpeaks
-mkdir Flashy_ones/POT
-mkdir Flashy_ones/record_length
+mkdir anpeaks
+mkdir POT
+mkdir record_length
 
 # Download site numbers for a state
 wget  -q "http://waterservices.usgs.gov/nwis/site/?format=rdb,1.0&stateCd=ny&outputDataTypeCd=iv,id&parameterCd=00060&hasDataTypeCd=iv,id"  --referer="http://waterservices.usgs.gov/" -O tempdl
@@ -86,11 +85,11 @@ cat state_copy | while read -r f1 f2 f3 f4 f5 f6 f7 f8 f9; do
           
     # if there are more than 2 POT per year, save the POT and length files and download the annual peaks
 	   	if grep -q "yes" YNPOTpy; then 
-	   		cp POT Flashy_ones/POT/$f1.txt
-			cp len Flashy_ones/record_length/$f1.txt
+	   		cp POT POT/$f1.txt
+			cp len record_length/$f1.txt
 			
 			wget -q "http://nwis.waterdata.usgs.gov/nwis/peak?site_no=$f1&agency_cd=USGS&format=rdb"  --referer="nwis.waterdata.usgs.gov/nwis" -O anpeak
-			grep $f1 anpeak | sed '1,2d' > Flashy_ones/anpeaks/$f1.txt
+			grep $f1 anpeak | sed '1,2d' > anpeaks/$f1.txt
 	   	fi
 	
 	else
